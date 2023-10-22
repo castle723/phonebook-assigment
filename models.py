@@ -17,17 +17,17 @@ db = SQLAlchemy()
 def load_user(user_id):
     return User.query.get(user_id)
 
-class User(db.model, UserMixin):
-    id = db.column(db.String, primary_key=True)
-    first_name = db.column(db.String(150), nullable=True, default='')
-    last_name = db.column(db.String(150), nullable=True, default='')
-    email = db.column(db.String(150), nullable=False)
-    password = db.column(db.String(150), nullable=True, default='')
-    g_auth_verify = db.columm(db.Boolean, default=False)
+class User(db.Model, UserMixin):
+    id = db.Column(db.String, primary_key=True)
+    first_name = db.Column(db.String(150), nullable=True, default='')
+    last_name = db.Column(db.String(150), nullable=True, default='')
+    email = db.Column(db.String(150), nullable=False)
+    password = db.Column(db.String(150), nullable=True, default='')
+    g_auth_verify = db.Column(db.Boolean, default=False)
     token = db.Column(db.String, default='', unique=True)
-    date_created = db.column(db.DateTime, nullable=False, default=datetime.utcnow)
+    date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
-    def __init__(self, email, first_name'', last_name'', password'', token='', g_auth_verify=False)
+    def __init__(self, email, first_name='', last_name='', password='', token='', g_auth_verify=False):
         self.id = self.set_id()
         self.first_name = first_name
         self.last_name = last_name
@@ -40,7 +40,7 @@ class User(db.model, UserMixin):
         return secrets.token_hex(length)
     
     def set_id(self):
-        return str(uuid,uuid4())
+        return str(uuid.uuid4())
     
     def set_password(self, password):
         self.pw_hash = generate_password_hash(password)
@@ -49,11 +49,11 @@ class User(db.model, UserMixin):
     def __repr__(self):
         return f'User {self.email} has been added to the database'
     
-class Contact(db,Model):
+class Contact(db.Model):
     id = db.Column(db.String, primary_key=True)
     name = db.Column(db.String(150), nullable = False)
     email = db.Column(db.String(200))
-    phone_number = db.column(db.String(20))
+    phone_number = db.Column(db.String(20))
     address = db.Column(db.String(200))
     user_token = db.Column(db.String, db.ForeignKey('user.token'), nullable = False)
 
@@ -71,7 +71,7 @@ class Contact(db,Model):
     def set_id(self):
         return (secrets.token_urlsafe())
 
-class ContactSchema(ma.schema):
+class ContactSchema(ma.Schema):
     class Meta:
         fields = ['id', 'name', 'email', 'phone_number', 'address']
 
