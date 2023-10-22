@@ -12,9 +12,6 @@ def getdata():
 @token_required
 def create_contact(current_user_token):
     print(request, request.json)
-    
-    
-    
     name = request.json['name']
     email = request.json['email']
     phone_number = request.json['phone_number']
